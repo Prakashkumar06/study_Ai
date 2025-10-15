@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = "prakash918/studybuddy"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-        IMAGE_TAG = "v${BUILD_NUMBER}"
+        
     }
     stages {
         stage('Checkout Github') {
@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
+                    dockerImage = docker.build("${DOCKER_HUB_REPO}:latest")
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
                 script {
                     echo 'Pushing Docker image to DockerHub...'
                     docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
-                        dockerImage.push("${IMAGE_TAG}")
+                        dockerImage.push('latest')
                     }
                 }
             }
