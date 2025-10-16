@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = "prakash918/studybuddy"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-
+        IMAGE_TAG = "v${BUILD_NUMBER}"
     }
     stages {
         stage('Checkout Github') {
@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    dockerImage = docker.build("${DOCKER_HUB_REPO}:latest")
+                    dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
                 script {
                     echo 'Pushing Docker image to DockerHub...'
                     docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
-                        dockerImage.push('latest')
+                        dockerImage.push("${IMAGE_TAG}")
                     }
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sed -i 's|image: dataguru97/studybuddy:.*|image: dataguru97/studybuddy:${IMAGE_TAG}|' manifests/deployment.yaml
+                    sed -i 's|image: prakash918/studybuddy:.*|image: prakash918/studybuddy:${IMAGE_TAG}|' menifests/deployment.yaml
                     """
                 }
             }
@@ -45,11 +45,11 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                         sh '''
-                        git config user.name "data-guru0"
-                        git config user.email "gyrogodnon@gmail.com"
-                        git add manifests/deployment.yaml
+                        git config user.name "Prakashkumar06"
+                        git config user.email "prakashkumarsingh213@gmail.com"
+                        git add menifests/deployment.yaml
                         git commit -m "Update image tag to ${IMAGE_TAG}" || echo "No changes to commit"
-                        git push https://${GIT_USER}:${GIT_PASS}@github.com/data-guru0/STUDY-BUDDY-AI.git HEAD:main
+                        git push https://${GIT_USER}:${GIT_PASS}@github.com/Prakashkumar06/study_Ai.git HEAD:main
                         '''
                     }
                 }
