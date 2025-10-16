@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def main():
-    st.set_page_config(page_title="Study Buddy AI", page_icon="🎓")
+    st.set_page_config(page_title="Study Buddy AI New", page_icon="🎓")
 
     # Initialize session variables
     if 'quiz_manager' not in st.session_state:
