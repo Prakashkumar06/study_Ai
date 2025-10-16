@@ -15,9 +15,9 @@ spec:
       containers:
       - name: llmops-app
 <<<<<<< HEAD
-        image: prakash918/studybuddy:v25
+        image: prakash918/studybuddy:v26
 =======
-        image: prakash918/studybuddy:v25
+        image: prakash918/studybuddy:v26
 >>>>>>> 00a2462 (arco setup)
         ports:
         - containerPort: 8501
